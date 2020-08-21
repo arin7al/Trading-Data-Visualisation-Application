@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flask-SSE Quickstart</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+  <h1>Flask-SSE Quickstart</h1>
+  <script>
+    var source = new EventSource("http://192.168.99.100:5000/streamTest/sse");
+    source.addEventListener('message', function(event) {
+        var data = JSON.parse(event.data);
+        $("#fromServer").append( "<p>" + JSON.stringify(data) + "</p>" );
+    }, false);
+    source.addEventListener('error', function(event) {
+        console.log("The stream has finished or the server is not running");
+    }, false);
+  </script>
+  <p id="fromServer"></p>
+</body>
+</html>

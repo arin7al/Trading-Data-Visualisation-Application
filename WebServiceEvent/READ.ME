@@ -1,0 +1,14 @@
+This is the flask application that is sending a SSE stream to the front-end.
+
+It requires flask, flask_sse, flask_cors and requests to be installed
+(pip install flask, flask_sse, flask_cors, requests into your vitural env)
+
+It will send a request to the webservice to retrieve a stream of generated data.
+The address on line 13 therefore depends on where the webservice is hosted.
+
+To run it on local environment, run the following command:
+$ export FLASK_APP=helloworld.py
+$ flask run --host=127.0.0.1 --port=8000
+
+This application also contains its own front-end if needed, it's returned when
+you make a GET request to localhost:8000/ if run on the local environment.
