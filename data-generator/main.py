@@ -21,7 +21,12 @@ def stream():
 
 @app.route('/streamTest/sse')
 def sse_stream():
-     return webServiceStream.sse_stream()
+    return webServiceStream.sse_stream()
+
+@app.route('/dbtest')
+def dbtest():
+    webServiceStream.save_in_database()
+    return "hi"
 
 
 def bootapp():
