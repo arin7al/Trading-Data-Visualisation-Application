@@ -1,9 +1,8 @@
 import time
 
-import numpy, random
 from datetime import datetime, timedelta
 import json
-from .Instrument import Instrument
+from Instrument import *
 
 instruments = ("Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
 			"Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic")
