@@ -1,8 +1,9 @@
 import time
+
 import numpy, random
 from datetime import datetime, timedelta
 import json
-from Instrument import *
+from .Instrument import Instrument
 
 instruments = ("Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
 			"Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic")
@@ -10,6 +11,8 @@ counterparties = ("Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia")
 NUMBER_OF_RANDOM_DEALS = 2000
 TIME_PERIOD_MILLIS = 3600000
 EPOCH = datetime.now() - timedelta(days = 1)
+
+
 
 class   RandomDealData:
     def createInstrumentList(self):
@@ -48,3 +51,4 @@ class   RandomDealData:
             'time' : dealTime.strftime("%d-%b-%Y (%H:%M:%S.%f)"),
             }
         return json.dumps(deal)
+

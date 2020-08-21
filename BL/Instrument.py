@@ -10,6 +10,7 @@ class Instrument:
 
         self.__price = price
         self.__startingPrice = startingPrice
+        return
 
     def calculateNextPrice(self, direction):
         newPriceStarter = self.__price + numpy.random.normal(0, 1) * self.__variance + self.__drift
