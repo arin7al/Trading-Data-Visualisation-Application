@@ -7,12 +7,6 @@ const SearchBar = props => {
     value={props.searchDetails.filterText}
     onChange={event => props.handleFilterTextChange(event.target.value)}
     ></input>
-    <p>
-      <input type="checkbox"
-      checked={props.searchDetails.inStockOnly}
-      onChange={event => props.handleInStockOnlyChange(event.target.checked)}
-      ></input>Only show products in stock
-    </p>
   </form>);
 };
 
