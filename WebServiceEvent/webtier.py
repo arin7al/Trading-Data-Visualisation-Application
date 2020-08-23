@@ -36,17 +36,20 @@ def get_message():
     return s
 
 def bootapp(ip, port):
-    app.run(port=port, threaded=True, host=(ip))
+    app.run(port=port, threaded=True, host=ip)
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Web service need 2 arguments: ip address and port")
+    if len(sys.argv) != 5:
+        print("Web service need 4 arguments: web server ip address, port and datagen ip address, port")
         sys.exit()
 
     host = sys.argv[1]
     port = int(sys.argv[2])
 
+    datagen_ip = sys.argv[3]
+    datagen_port = int(sys.argv[4])
+
     global datagen_url
-    datagen_url = "http://localhost:8080/streamTest"
+    datagen_url = "http://" + datagen_ip + ":" + str(datagen_port) +"/streamTest"
 
     bootapp(host, port)

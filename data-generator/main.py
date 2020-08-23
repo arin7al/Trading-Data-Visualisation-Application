@@ -29,7 +29,7 @@ def bootapp(ip, port):
     #global rdd 
     #rdd = RandomDealData()
     #webServiceStream.bootServices()
-    app.run(debug=True, port=port, threaded=True, host=(ip))
+    app.run(debug=True, port=port, threaded=True, host=ip)
 
 
 if __name__ == "__main__":
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         print("Web service need 2 arguments: ip address and port")
         sys.exit()
 
-    host = sys.argv[1]
+    ip = sys.argv[1]
     port = int(sys.argv[2])
 
-    bootapp(host, port)
+    bootapp(ip, port)
