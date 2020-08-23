@@ -1,8 +1,10 @@
+import sys
 import time
 import numpy, random
 from datetime import datetime, timedelta
 import json
 from Instrument import *
+import db
 
 instruments = ("Astronomica", "Borealis", "Celestial", "Deuteronic", "Eclipse",
 			"Floral", "Galactia", "Heliosphere", "Interstella", "Jupiter", "Koronis", "Lunatic")
@@ -11,8 +13,28 @@ NUMBER_OF_RANDOM_DEALS = 2000
 TIME_PERIOD_MILLIS = 3600000
 EPOCH = datetime.now() - timedelta(days = 1)
 
-class   RandomDealData:
+
+class RandomDealData:
+    def saveCptysToDatabase(self):
+        try:
+            cnx = db.get_connection()
+            add_cpty = ("INSERT INTO counterparty "
+                                  "(counterparty_id, counterparty_name) "
+                                  "VALUES (%s, %s)")
+            id = 1
+            for cpty in counterparties:
+                cursor = cnx.cursor()
+                data_cpty = (id,cpty)
+                cursor.execute(add_cpty, data_cpty)
+                cnx.commit()
+                cursor.close()
+                id = id + 1
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+            print()
+
     def createInstrumentList(self):
+        self.saveCptysToDatabase()
         f = open('initialRandomValues.txt', 'r')
         instrumentId = 1000
         instrumentList = []
@@ -25,10 +47,25 @@ class   RandomDealData:
             variance = (abs(hashedValue) % 1000) / 100.0
             variance = 0 - variance if isNegative else variance
             instrument = Instrument(instrumentId, instrumentName, basePrice, drift, variance)
+            self.saveInstrumentToDatabase(instrument)
             instrumentList.append(instrument)
             instrumentId += 1
         return instrumentList
 
+    def saveInstrumentToDatabase(self, instrument):
+        try:
+            cnx = db.get_connection()
+            cursor = cnx.cursor()
+            add_instrument = ("INSERT INTO instrument "
+                              "(instrument_id, instrument_name) "
+                              "VALUES (%s, %s)")
+            data_instrument = (instrument.id, instrument.name)
+            cursor.execute(add_instrument, data_instrument)
+            cnx.commit()
+            cursor.close()
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+            print()
 
     def createRandomData( self, instrumentList ):
         time.sleep(random.uniform(1,30)/100)
