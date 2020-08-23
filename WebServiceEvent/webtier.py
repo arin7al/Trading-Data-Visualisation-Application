@@ -3,6 +3,7 @@ from flask_sse import sse
 from flask_cors import CORS
 import requests
 import time
+import sys
 
 app = Flask(__name__)
 #app.register_blueprint(sse, url_prefix='/stream')
@@ -10,7 +11,7 @@ CORS(app)
 
 @app.route('/deals')
 def forwardStream():
-    r = requests.get('http://localhost:8080/streamTest', stream=True)
+    r = requests.get(datagen_url, stream=True)
     def eventStream():
             for line in r.iter_lines( chunk_size=1):
                 if line:
@@ -19,7 +20,7 @@ def forwardStream():
 
 @app.route('/client/testservice')
 def client_to_server():
-    r = requests.get('http://localhost:8080/testservice')
+    r = requests.get(datagen_url)
     return Response(r.iter_lines(chunk_size=1), mimetype="text/json")
 
 @app.route('/')
@@ -34,8 +35,18 @@ def get_message():
     s = time.ctime(time.time())
     return s
 
-def bootapp():
-    app.run(port=8090, threaded=True, host=('0.0.0.0'))
+def bootapp(ip, port):
+    app.run(port=port, threaded=True, host=(ip))
 
 if __name__ == '__main__':
-     bootapp()
+    if len(sys.argv) != 3:
+        print("Web service need 2 arguments: ip address and port")
+        sys.exit()
+
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+
+    global datagen_url
+    datagen_url = "http://localhost:8080/streamTest"
+
+    bootapp(host, port)
