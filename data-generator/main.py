@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
 from flask_cors import CORS
 import web_service_stream
 from random_deal_data import *
@@ -35,7 +35,9 @@ def authentication():
     username = request.args.get('username')
     password = request.args.get('password')
 
-    return str(is_user_authenticated(username, password))
+    data = {"success": is_user_authenticated(username, password)}
+
+    return jsonify(data)
 
 def bootapp(ip, port):
     #global rdd 
