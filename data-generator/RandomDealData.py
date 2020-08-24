@@ -86,3 +86,17 @@ class RandomDealData:
             }
         return json.dumps(deal)
 
+    def saveDealToDatabase(self, deal):
+        try:
+            cnx = db.get_connection()
+            cursor = cnx.cursor()
+            # add_deal = ("INSERT INTO deal "
+            #                   "(deal_id, deal_time, deal_counterparty_id, deal_instrument_id, deal_type, deal_amount, deal_quantity) "
+            #                   "VALUES (%s, %s,%s, %s,%s, %s, %s)")
+            # data_deal = ()
+            # cursor.execute(add_deal, data_deal)
+            cnx.commit()
+            cursor.close()
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+            print()
