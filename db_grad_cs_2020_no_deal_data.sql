@@ -65,7 +65,7 @@ CREATE TABLE `deal` (
   `deal_counterparty_id` int(11) DEFAULT NULL,
   `deal_instrument_id` int(11) DEFAULT NULL,
   `deal_type` char(1) DEFAULT NULL,
-  `deal_price` decimal(12,12) DEFAULT NULL,
+  `deal_price` decimal(12,2) DEFAULT NULL,
   `deal_quantity` int(11) NOT NULL,
   PRIMARY KEY (`deal_id`),
   KEY `deal_counterparty_id` (`deal_counterparty_id`),

@@ -6,7 +6,7 @@ config = {
     'password': 'helloworld',
     'host': 'localhost',
     'port': 3308,
-    'database': 'db_grad_cs_1917',
+    'database': 'trading_data',
     'raise_on_warnings': True
 }
 
