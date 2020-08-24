@@ -10,15 +10,6 @@ from RandomDealData import *
 
 app = Flask(__name__)
 CORS(app)
-config = {
-    'user': 'root',
-    'password': 'helloworld',
-    'host': 'localhost',
-    'port': 3308,
-    'database': 'db_grad_cs_1917',
-    'raise_on_warnings': True
-}
-cnx = mysql.connector.connect(**config)
 
 def index():
     return "Data Generator is running..."
@@ -56,10 +47,9 @@ def get_time():
     s = time.ctime(time.time())
     return s
 
-def get_database_connection():
-    return cnx
 
 def save_in_database():
+    cnx = db.get_connection()
     cursor = cnx.cursor()
     # add_deal = ("INSERT INTO deal "
     #                 "(deal_id, deal_time, deal_counterparty_id, deal_instrument_id, deal_type, deal_amount, deal_quantity) "
@@ -73,4 +63,3 @@ def save_in_database():
     cursor.execute(add_user, data_user)
     cnx.commit()
     cursor.close()
-    cnx.close()
