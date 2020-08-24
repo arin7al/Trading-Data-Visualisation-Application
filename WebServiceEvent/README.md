@@ -9,3 +9,7 @@ check connection
 
 authentication
 ```host:port/authentication?username=username&password=password```
+
+average sell/buy
+```host:port/metrics/average/sell-buy```
+returns {"sell": sell-num, "buy": buy-num}
