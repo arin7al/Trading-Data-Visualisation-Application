@@ -37,6 +37,15 @@ def authentication():
 
     return str(is_user_authenticated(username, password))
 
+@app.route('/metrics/average/sell')
+def sell_average():
+    return str(1)
+
+@app.route('/metrics/average/buy')
+def buy_average():
+    return str(2)
+
+
 def bootapp(ip, port):
     #global rdd 
     #rdd = RandomDealData()
