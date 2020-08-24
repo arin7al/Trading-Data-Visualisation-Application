@@ -17,6 +17,12 @@ def get_connection():
         _connection = mysql.connector.connect(**config)
     return _connection
 
+def is_connection_open():
+    global _connection
+    if _connection is not None:
+        return True
+    else:
+        return False
 
 def close_connection():
     global _connection
