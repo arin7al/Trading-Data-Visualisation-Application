@@ -5,4 +5,7 @@
 # Endpoints
 
 check connection
-```host:port/connection``` 
+```host:port/connection```
+
+authentication
+```host:port/authentication?username=username&password=password```
