@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 from flask_sse import sse
 from flask_cors import CORS
 import requests
@@ -38,6 +38,18 @@ def connection():
         return "true"
     except:
         return "false"
+
+@app.route('/authentication')
+def authentication():
+    rest_url = datagen_url + "/authentication"
+
+    username = request.args.get('username')
+    password = request.args.get('password')
+
+    rest_url += "?username=" + username + "&password=" + password
+
+    r = requests.get(rest_url)
+    return Response(r.iter_lines(chunk_size=1), mimetype="text/json")
 
 def get_message():
     """this could be any function that blocks until data is ready"""
