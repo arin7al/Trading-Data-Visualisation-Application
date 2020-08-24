@@ -33,11 +33,14 @@ def index():
 @app.route('/connection')
 def connection():
     rest_url = datagen_url + "/"
+    data = {}
     try:
         requests.get(rest_url)
-        return "true"
+        data = {'connected': True}
     except:
-        return "false"
+        data = {'connected': False}
+
+    return jsonify(data)
 
 @app.route('/authentication')
 def authentication():
@@ -49,7 +52,10 @@ def authentication():
     rest_url += "?username=" + username + "&password=" + password
 
     r = requests.get(rest_url)
-    return Response(r.iter_lines(chunk_size=1), mimetype="text/json")
+
+    success = r.json()
+
+    return success
 
 @app.route("/metrics/average/sell-buy")
 def average():

@@ -1,12 +1,6 @@
-import time
-
-import mysql.connector
 from flask import Flask, Response
 from flask_cors import CORS
-import numpy, random
-from datetime import datetime, timedelta
-import json
-from RandomDealData import *
+from random_deal_data import *
 
 app = Flask(__name__)
 CORS(app)
