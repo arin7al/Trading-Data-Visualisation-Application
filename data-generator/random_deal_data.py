@@ -1,6 +1,6 @@
 import sys
 import time
-import numpy, random
+import random
 from datetime import datetime, timedelta
 import json
 from Instrument import *
@@ -68,18 +68,19 @@ class RandomDealData:
             'type' : type,
             'quantity' : quantity,
             'time' : dealTime.strftime("%d-%b-%Y (%H:%M:%S.%f)"),
+            'id' : initialDealId
         }
-        self.saveDealToDatabase(deal, initialDealId)
+        self.saveDealToDatabase(deal)
         return json.dumps(deal)
 
-    def saveDealToDatabase(self, deal, dealId):
-        # try:
+    def saveDealToDatabase(self, deal):
+        try:
             cnx = db.get_connection()
             cursor = cnx.cursor()
             add_deal = ("INSERT INTO deal "
                         "(deal_id, deal_time, deal_counterparty_id, deal_instrument_id, deal_type, deal_price, deal_quantity) "
                         "VALUES (%s, %s, %s, %s, %s, cast(%s as decimal(12,2)), %s)")
-            data_deal = (dealId,
+            data_deal = (deal['id'],
                          deal['time'],
                          counterparty_dict[deal['cpty']],
                          instrument_dict[deal['instrumentName']],
@@ -89,6 +90,6 @@ class RandomDealData:
             cursor.execute(add_deal, data_deal)
             cnx.commit()
             cursor.close()
-        # except:
-        #     print("Oops!", sys.exc_info()[0], "occurred.")
-        #     print()
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+            print()
