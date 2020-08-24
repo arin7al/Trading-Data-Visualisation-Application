@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchBar  from "./SearchBar";
 import TradeTable from "./TradeTable";
+import InstrumentInfo from "./InstrumentInfo";
 import axios from 'axios';
 
 //const PRODUCTSURL = `http://localhost:8080/streamTest`;
@@ -143,12 +144,14 @@ const FilterableTradeTable = props => {
   }
 
   return (<div>
-    <SearchBar 
-      searchDetails={{filterText}}
-      handleFilterTextChange={ handleFilterTextChange}
-    />
-    {tableDisplay}
-    </div> );
+      <SearchBar 
+        searchDetails={{filterText}}
+        handleFilterTextChange={ handleFilterTextChange}
+      />
+      {tableDisplay}
+      <InstrumentInfo />
+    </div> 
+  );
 };
 
 export default FilterableTradeTable;
