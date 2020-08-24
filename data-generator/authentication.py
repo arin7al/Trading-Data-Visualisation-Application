@@ -8,11 +8,11 @@ def is_user_authenticated(username, password):
         cursor = cnx.cursor()
         get_password = ("SELECT user_pwd FROM users "
                           "WHERE user_id = %s")
-        data_user = (username)
+        data_user = (username,)
         cursor.execute(get_password, data_user)
         result = cursor.fetchone()
 
-        if result == password:
+        if result[0] == password:
             is_auth = True
 
         cnx.commit()
