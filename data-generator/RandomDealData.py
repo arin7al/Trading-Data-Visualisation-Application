@@ -12,7 +12,25 @@ counterparties = ("Lewis", "Selvyn", "Richard", "Lina", "John", "Nidia")
 NUMBER_OF_RANDOM_DEALS = 2000
 TIME_PERIOD_MILLIS = 3600000
 EPOCH = datetime.now() - timedelta(days = 1)
+instrument_dict = {"Astronomica" : 1001,
+                   "Borealis"    :1002,
+                   "Celestial"   : 1003,
+                   "Deuteronic"  :1004,
+                   "Eclipse"     : 1005 ,
+                   "Floral"      : 1006,
+                   "Galactia"    : 1007,
+                   "Heliosphere" : 1008,
+                   "Interstella" : 1009,
+                   "Jupiter"     : 1010,
+                   "Koronis"     : 1011,
+                   "Lunatic"     : 1012}
 
+counterparty_dict = {"Lewis"   : 701,
+                     "Selvyn"  : 702,
+                     "Richard" : 703,
+                     "Lina"    : 704,
+                     "John"    :705,
+                     "Nidia"   : 706}
 
 class RandomDealData:
     def saveCptysToDatabase(self):
@@ -86,15 +104,21 @@ class RandomDealData:
             }
         return json.dumps(deal)
 
-    def saveDealToDatabase(self, deal):
+    def saveDealToDatabase(self, deal, dealId):
         try:
             cnx = db.get_connection()
             cursor = cnx.cursor()
-            # add_deal = ("INSERT INTO deal "
-            #                   "(deal_id, deal_time, deal_counterparty_id, deal_instrument_id, deal_type, deal_amount, deal_quantity) "
-            #                   "VALUES (%s, %s,%s, %s,%s, %s, %s)")
-            # data_deal = ()
-            # cursor.execute(add_deal, data_deal)
+            add_deal = ("INSERT INTO deal "
+                              "(deal_id, deal_time, deal_counterparty_id, deal_instrument_id, deal_type, deal_price, deal_quantity) "
+                              "VALUES (%s, %s,%s, %s,%s, %s, %s)")
+             data_deal = (dealId,
+                        deal['time'],
+                        counterparty_dict[deal['cpty']],
+                        instrument_dict[deal['instrumentName']],
+                        deal['type'],
+                        deal['price'],
+                        deal['quantity'])
+            cursor.execute(add_deal, data_deal)
             cnx.commit()
             cursor.close()
         except:
