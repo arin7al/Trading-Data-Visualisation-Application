@@ -6,6 +6,8 @@
 
 check connection
 ```host:port/connection```
+returns {'connection': true or false}
 
 authentication
 ```host:port/authentication?username=username&password=password```
+returns {'success': true or false}
