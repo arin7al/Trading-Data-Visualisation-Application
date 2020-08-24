@@ -2,6 +2,7 @@ from flask import Flask, Response
 from flask_cors import CORS
 import webServiceStream
 from RandomDealData import *
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -29,12 +30,19 @@ def dbtest():
     return "hi"
 
 
-def bootapp():
+def bootapp(ip, port):
     #global rdd 
     #rdd = RandomDealData()
     #webServiceStream.bootServices()
-    app.run(debug=True, port=8080, threaded=True, host=('0.0.0.0'))
+    app.run(debug=True, port=port, threaded=True, host=ip)
 
 
 if __name__ == "__main__":
-      bootapp()
+    if len(sys.argv) != 3:
+        print("Web service need 2 arguments: ip address and port")
+        sys.exit()
+
+    ip = sys.argv[1]
+    port = int(sys.argv[2])
+
+    bootapp(ip, port)
