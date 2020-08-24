@@ -39,10 +39,12 @@ def authentication():
 
 @app.route('/metrics/average/sell')
 def sell_average():
+    instrument = request.args.get('instrument')
     return str(1)
 
 @app.route('/metrics/average/buy')
 def buy_average():
+    instrument = request.args.get('instrument')
     return str(2)
 
 
