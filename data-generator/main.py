@@ -1,7 +1,7 @@
 from flask import Flask, Response, request
 from flask_cors import CORS
-import webServiceStream
-from RandomDealData import *
+import web_service_stream
+from random_deal_data import *
 import sys
 from authentication import *
 
@@ -11,23 +11,23 @@ CORS(app)
 
 @app.route('/')
 def index():
-    return webServiceStream.index()
+    return web_service_stream.index()
 
 @app.route('/testservice')
 def testservice():
-    return webServiceStream.testservice()
+    return web_service_stream.testservice()
 
 @app.route('/streamTest')
 def stream():
-    return webServiceStream.stream()
+    return web_service_stream.stream()
 
 @app.route('/streamTest/sse')
 def sse_stream():
-    return webServiceStream.sse_stream()
+    return web_service_stream.sse_stream()
 
 @app.route('/dbtest')
 def dbtest():
-    webServiceStream.save_in_database()
+    web_service_stream.save_in_database()
     return "hi"
 
 @app.route('/authentication')
