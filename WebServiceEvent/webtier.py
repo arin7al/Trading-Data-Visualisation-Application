@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, jsonify
+from flask import Flask, render_template, Response, request, json, jsonify, make_response
 from flask_sse import sse
 from flask_cors import CORS
 import requests
@@ -56,6 +56,23 @@ def authentication():
     success = r.json()
 
     return success
+
+@app.route("/metrics/average/sell-buy")
+def average():
+    rest_url_sell = datagen_url + "/metrics/average/sell"
+    rest_url_buy = datagen_url + "/metrics/average/buy"
+
+    instrument = request.args.get('instrument')
+
+    r_sell = requests.get(rest_url_sell + '?instrument=' + instrument)
+    r_buy = requests.get(rest_url_buy + '?instrument=' + instrument)
+
+    sell = r_sell.json()
+    buy = r_buy.json()
+
+    data = {"sell" : sell, "buy": buy}
+
+    return jsonify(data)
 
 def get_message():
     """this could be any function that blocks until data is ready"""
