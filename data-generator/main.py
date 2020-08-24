@@ -1,8 +1,9 @@
-from flask import Flask, Response
+from flask import Flask, Response, request
 from flask_cors import CORS
 import webServiceStream
 from RandomDealData import *
 import sys
+from authentication import *
 
 app = Flask(__name__)
 CORS(app)
@@ -29,6 +30,12 @@ def dbtest():
     webServiceStream.save_in_database()
     return "hi"
 
+@app.route('/authentication')
+def authentication():
+    username = request.args.get('username')
+    password = request.args.get('password')
+
+    return str(is_user_authenticated(username, password))
 
 def bootapp(ip, port):
     #global rdd 
