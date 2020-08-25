@@ -74,6 +74,28 @@ def average():
 
     return jsonify(data)
 
+@app.route('/metrics')
+def metrics():
+    rest_url_realized_profit = datagen_url + "/metrics/profit/realized"
+    rest_url_effective_profit = datagen_url + "/metrics/profit/effective"
+    rest_url_end_position = datagen_url + "/metrics/end-position"
+
+    r_realized = requests.get(rest_url_realized_profit)
+    r_effective = requests.get(rest_url_effective_profit)
+    r_end_position = requests.get(rest_url_end_position)
+
+    realized = r_realized.json()
+    effective = r_effective.json()
+    end_position = r_end_position.json()
+
+
+
+    data = {"realized": realized,
+            "effective": effective,
+            "end-position": end_position}
+
+    return jsonify(data)
+
 def get_message():
     """this could be any function that blocks until data is ready"""
     time.sleep(1.0)
