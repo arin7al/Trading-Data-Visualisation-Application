@@ -18,15 +18,17 @@ class MetricsCalculator:
             SQL_STATEMENT_BUY = ("SELECT AVG(deal_price) FROM deal "
                                  "WHERE deal_type = 'B' AND"
                                  "deal_time BETWEEN {} AND {} AND"
-                                 "deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = '{}'").format(start, stop, instrument)
+                                 "deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = '{}')").format(start, stop, instrument)
             SQL_STATEMENT_SELL = ("SELECT AVG(deal_price) FROM deal "
                                   "WHERE deal_type = 'S' AND"
                                   "deal_time BETWEEN {} AND {} AND"
-                                  "deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = '{}'").format(start, stop, instrument)
+                                  "deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = '{}')").format(start, stop, instrument)
 
-            avg_buy_price = self.cursor.execute(SQL_STATEMENT_BUY)
-            avg_sell_price = self.cursor.execute(SQL_STATEMENT_SELL)
-            return avg_buy_price, avg_sell_price
+            self.cursor.execute(SQL_STATEMENT_BUY)
+            result = self.cursor.fetchone()
+            self.cursor.execute(SQL_STATEMENT_SELL)
+            result2 = self.cursor.fetchone()
+            return result[0], result2[0]
 
         except:
             print("Oops!", sys.exc_info()[0], "occurred.")
@@ -36,17 +38,20 @@ class MetricsCalculator:
         try:
 
             SQL_STATEMENT_BUY = ("SELECT AVG(deal_price) FROM deal "
-                                 "WHERE deal_type = 'B' AND"
-                                 "deal_instrument_id =(SELECT instrument_id FROM instruments WHERE  instrument_name = '{}'").format(instrument)
+                                 "WHERE deal_type = 'B' AND "
+                                 "deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = '{}')").format(instrument)
             SQL_STATEMENT_SELL = ("SELECT AVG(deal_price) FROM deal "
-                                  "WHERE deal_type = 'S' AND"
-                                  "deal_instrument_id =(SELECT instrument_id FROM instruments WHERE  instrument_name = '{}'").format(instrument)
+                                  "WHERE deal_type = 'S' AND "
+                                  "deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = '{}')").format(instrument)
 
-            avg_buy_price = self.cursor.execute(SQL_STATEMENT_BUY)
-            avg_sell_price = self.cursor.execute(SQL_STATEMENT_SELL)
-            return avg_buy_price, avg_sell_price
+            self.cursor.execute(SQL_STATEMENT_BUY)
+            result = self.cursor.fetchone()
+            self.cursor.execute(SQL_STATEMENT_SELL)
+            result2 = self.cursor.fetchone()
+            return result[0], result2[0]
 
         except:
             print("Oops!", sys.exc_info()[0], "occurred.")
             print()
+            return None, None
 
