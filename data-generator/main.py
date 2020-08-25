@@ -5,6 +5,7 @@ from random_deal_data import *
 import sys
 from authentication import *
 from compute_metrics import *
+from db import *
 
 app = Flask(__name__)
 CORS(app)
@@ -67,8 +68,9 @@ def effective():
 
 @app.route('/metrics/end-position')
 def end_position():
-    return str(5)
+    list = calculator.calcEndPosition()
 
+    return jsonify(list)
 
 def bootapp(ip, port):
     #global rdd 

@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+
+    web-react-git:
+        container_name: web-react-git    
+        build:
+            context: ./web-react-git
+            dockerfile: Dockerfile    
+        volumes:
+            - '.:/app'
+            - '/app/node_modules'
+        ports:
+            - 3001:3000
