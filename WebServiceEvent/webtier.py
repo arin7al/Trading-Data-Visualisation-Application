@@ -64,8 +64,8 @@ def average():
 
     instrument = request.args.get('instrument')
 
-    r_sell = requests.get(rest_url_sell + '?instrument=' + instrument)
-    r_buy = requests.get(rest_url_buy + '?instrument=' + instrument)
+    r_sell = float(requests.get(rest_url_sell + '?instrument=' + instrument))
+    r_buy = float(requests.get(rest_url_buy + '?instrument=' + instrument))
 
     sell = r_sell.json()
     buy = r_buy.json()

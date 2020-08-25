@@ -117,7 +117,7 @@ class MetricsCalculator:
                     sum_of_sells = result1[0]
                     if sum_of_sells is None:
                         sum_of_sells = 0
-                    position_dict[instrument_name] = sum_of_buys - sum_of_sells
+                    position_dict[instrument_name] = float(sum_of_buys - sum_of_sells)
                     #        also calculate cash?
                 end_position_list.append(position_dict)
             cnx.commit()
