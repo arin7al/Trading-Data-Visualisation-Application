@@ -4,14 +4,7 @@ from random_deal_data import counterparty_dict, instrument_dict
 
 
 class MetricsCalculator:
-    def __init__(self):
-        try:
-            self.cnx = db.get_connection()
-            self.cursor = self.cnx.cursor()
 
-        except:
-            print("Couldn't initialize database. ", sys.exc_info()[0], "occurred.")
-            print()
 
     def calcAvgInstrumentPrice(self,instrument, start, stop):
         try:
@@ -100,33 +93,37 @@ class MetricsCalculator:
     #         N_bought = buys.sum(axis=0)[1]
     #         N_sold = sells.sum(axis=0)[1]
     #
-    # def calcEndPosition(self):
-    #     end_position_list = []
-    #     try:
-    #         for counterparty_name, counterparty_id in counterparty_dict.items():
-    #             position_dict = {'cpty_name':counterparty_name}
-    #             for instrument_name, instrument_id in instrument_dict.items():
-    #                 SQL_STATEMENT_BUY = ("SELECT SUM(deal_quantity) FROM deal "
-    #                                      "WHERE deal_type = 'B' AND "
-    #                                      "deal_instrument_id = {} AND deal_counterparty_id = {}").format(instrument_id, counterparty_id)
-    #                 SQL_STATEMENT_SELL = ("SELECT SUM(deal_quantity) FROM deal "
-    #                                      "WHERE deal_type = 'S' AND "
-    #                                      "deal_instrument_id = {} AND deal_counterparty_id = {}").format(instrument_id, counterparty_id)
-    #                 self.cursor.execute(SQL_STATEMENT_BUY)
-    #                 result = self.cursor.fetchone()
-    #                 sum_of_buys = result[0]
-    #                 if sum_of_buys is None:
-    #                     sum_of_buys = 0
-    #                 self.cursor.execute(SQL_STATEMENT_SELL)
-    #                 result1 = self.cursor.fetchone()
-    #                 sum_of_sells = result1[0]
-    #                 if sum_of_sells is None:
-    #                     sum_of_sells = 0
-    #                 position_dict[instrument_name] = sum_of_buys - sum_of_sells
-    #                 #        also calculate cash?
-    #             end_position_list.append(position_dict)
-    #         return end_position_list
-    #     #       return list of maps
-    #     except:
-    #         print("Oops!", sys.exc_info()[0], "occurred.")
-    #         print()
+    def calcEndPosition(self):
+        end_position_list = []
+        try:
+            cnx = db.get_connection()
+            cursor = cnx.cursor()
+            for counterparty_name, counterparty_id in counterparty_dict.items():
+                position_dict = {'cpty_name':counterparty_name}
+                for instrument_name, instrument_id in instrument_dict.items():
+                    SQL_STATEMENT_BUY = ("SELECT SUM(deal_quantity) FROM deal "
+                                         "WHERE deal_type = 'B' AND "
+                                         "deal_instrument_id = {} AND deal_counterparty_id = {}").format(instrument_id, counterparty_id)
+                    SQL_STATEMENT_SELL = ("SELECT SUM(deal_quantity) FROM deal "
+                                         "WHERE deal_type = 'S' AND "
+                                         "deal_instrument_id = {} AND deal_counterparty_id = {}").format(instrument_id, counterparty_id)
+                    cursor.execute(SQL_STATEMENT_BUY)
+                    result = cursor.fetchone()
+                    sum_of_buys = result[0]
+                    if sum_of_buys is None:
+                        sum_of_buys = 0
+                    cursor.execute(SQL_STATEMENT_SELL)
+                    result1 = cursor.fetchone()
+                    sum_of_sells = result1[0]
+                    if sum_of_sells is None:
+                        sum_of_sells = 0
+                    position_dict[instrument_name] = sum_of_buys - sum_of_sells
+                    #        also calculate cash?
+                end_position_list.append(position_dict)
+            cnx.commit()
+            cursor.close()
+            return end_position_list
+        #       return list of maps
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+            print()

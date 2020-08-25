@@ -40,7 +40,8 @@ def test_average_price_is_calculated():
 
     # calculate metrics
     calculator = MetricsCalculator()
-    avg_buy_price, avg_sell_price = calculator.calcAvgInstrumentPriceForAllTime('test_instrument')
+    avg_buy_price = calculator.calcAvgInstrumentBuyPriceForAllTime('test_instrument')
+    avg_sell_price = calculator.calcAvgInstrumentSellPriceForAllTime('test_instrument')
 
     # clean database
     try:
@@ -65,6 +66,6 @@ def test_calc_end_position_passes():
     print(listOfDicts)
     assert listOfDicts is not None
 
-    if __name__ == "__main__":
-        test_average_price_is_calculated()
-        test_calc_end_position_passes()
+if __name__ == "__main__":
+    test_average_price_is_calculated()
+    test_calc_end_position_passes()
