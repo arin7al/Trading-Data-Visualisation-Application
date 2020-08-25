@@ -59,6 +59,12 @@ def test_average_price_is_calculated():
     assert avg_buy_price == 500.0
     assert avg_sell_price == 200.0
 
+def test_calc_end_position_passes():
+    calculator = MetricsCalculator()
+    listOfDicts = calculator.calcEndPosition()
+    print(listOfDicts)
+    assert listOfDicts is not None
 
-if __name__ == "__main__":
-    test_average_price_is_calculated()
+    if __name__ == "__main__":
+        test_average_price_is_calculated()
+        test_calc_end_position_passes()
