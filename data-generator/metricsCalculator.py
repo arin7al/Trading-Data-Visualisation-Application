@@ -41,33 +41,42 @@ class MetricsCalculator:
             print()
             return None, None
 
-
     def calcRealizedProfit(self):
         RealizedProfit = 0.
-        try:
 
-            for instrument in instruments:
+        try:
+            SQL_STATEMENT_DEAL_IDS = ("SELECT DISTINCT deal_instrument_id FROM deal ")
+            self.cursor.execute(SQL_STATEMENT_DEAL_IDS)
+            instruments_ids = self.cursor.fetchall()
+            print(type(instruments_ids), instruments_ids)
+            for instrument in instruments_ids:
                 SQL_STATEMENT_BUY = ("SELECT deal_price, deal_quantity FROM deal "
-                                     "WHERE deal_type = 'B' "
-                                     " deal_instrument_id =(SELECT instrument_id FROM instrument WHERE instrument_name = {} " ).format(
-                    instrument)
+                                     "WHERE deal_type = 'B' AND"
+                                     " deal_instrument_id = {} ").format(instrument[0])
 
                 SQL_STATEMENT_SELL = ("SELECT deal_price, deal_quantity  FROM deal "
-                                      "WHERE deal_type = 'S' "
-                                      "  deal_instrument_id =(SELECT instrument_id FROM instrument WHERE  instrument_name = {} ").format(
-                    instrument)
+                                      "WHERE deal_type = 'S' AND"
+                                      "  deal_instrument_id = {} ").format(instrument[0])
 
-                self.cursor.execute(SQL_STATEMENT_BUY)
-                buy_deals = self.cursor.fetchone()
-                self.cursor.execute(SQL_STATEMENT_SELL)
-                sell_deals = self.cursor.fetchone()
-                buys = np.array(buy_deals[0])
-                sells = np.array(sell_deals[0])
-                print(buys)
-                print(sells)
+                try:
+                    self.cursor.execute(SQL_STATEMENT_BUY)
+                    buy_deals = self.cursor.fetchall()
+                    print(buy_deals)
+                    buys = np.array(buy_deals[0])
+                    N_bought = buys.sum(axis=0)[1]
+                except:
+                    N_bought = 0
+                try:
+                    self.cursor.execute(SQL_STATEMENT_SELL)
+                    sell_deals = self.cursor.fetchall()
+                    print(sell_deals)
+                    sells = np.array(sell_deals[0])
+                    N_sold = sells.sum(axis=0)[1]
+                except:
+                    N_sold = 0
 
-                N_bought = buys.sum(axis=0)[1]
-                N_sold = sells.sum(axis=0)[1]
+                print(N_bought, N_sold)
+
 
                 if N_bought < N_sold:
                     raise Exception("You can't sell more assets than you have!!!")
