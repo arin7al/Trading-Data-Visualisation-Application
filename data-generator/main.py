@@ -4,10 +4,12 @@ import web_service_stream
 from random_deal_data import *
 import sys
 from authentication import *
+from compute_metrics import *
 
 app = Flask(__name__)
 CORS(app)
 
+calculator = MetricsCalculator()
 
 @app.route('/')
 def index():
@@ -42,12 +44,18 @@ def authentication():
 @app.route('/metrics/average/sell')
 def sell_average():
     instrument = request.args.get('instrument')
-    return str(1)
+
+    sell = calculator.calcAvgInstrumentSellPriceForAllTime(instrument)
+
+    return str(sell)
 
 @app.route('/metrics/average/buy')
 def buy_average():
     instrument = request.args.get('instrument')
-    return str(2)
+
+    buy = calculator.calcAvgInstrumentBuyPriceForAllTime(instrument)
+
+    return str(buy)
 
 @app.route('/metrics/profit/realized')
 def realized():
