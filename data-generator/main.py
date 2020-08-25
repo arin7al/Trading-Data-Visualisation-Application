@@ -49,6 +49,18 @@ def buy_average():
     instrument = request.args.get('instrument')
     return str(2)
 
+@app.route('/metrics/profit/realized')
+def realized():
+    return str(3)
+
+@app.route('/metrics/profit/effective')
+def effective():
+    return str(4)
+
+@app.route('/metrics/end-position')
+def end_position():
+    return str(5)
+
 
 def bootapp(ip, port):
     #global rdd 

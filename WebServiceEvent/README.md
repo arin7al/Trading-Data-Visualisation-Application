@@ -15,3 +15,7 @@ returns {'success': true or false}
 average sell/buy
 ```host:port/metrics/average/sell-buy?instrument=instrument_name```
 returns {"sell": sell-num, "buy": buy-num}
+
+other metrics
+```host:port/metrics```
+returns {'realized': realized-num, 'effective': effective-num, 'end-position': end-position-num}
