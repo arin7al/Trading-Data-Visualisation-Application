@@ -28,3 +28,12 @@ def close_connection():
     global _connection
     if _connection is not None:
         _connection.close()
+
+def get_all_deals():
+    SQL_STATEMENT = ("SELECT * FROM deal")
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(SQL_STATEMENT)
+    return cursor.fetchall()
+
+
